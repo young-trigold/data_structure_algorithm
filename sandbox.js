@@ -1,23 +1,8 @@
-Array.prototype.insert = function insert(index, ...items) {
-  this.splice(index, 0, ...items);
-  return this;
-};
+const obj1 = {id: 'obj1'};
+const obj2 = {id: 'obj2'};
+const objs = [obj1, obj2];
+const objsCopy = objs.slice();
+objsCopy[0].id = 'changed';
 
-Array.prototype.update = function update(index, ...items) {
-  this.splice(index, 1, ...items);
-  return this;
-};
-
-Array.prototype.remove = function remove_(index, removeCount) {
-  this.splice(index, removeCount);
-  return this;
-};
-
-const fruits = ['orange', 'watermelon', 'strawberry'];
-fruits
-  .insert(fruits.length, 'apple')
-  .update(fruits.length - 1, 'pear')
-  .remove(fruits.length - 1, 1);
-
-console.log(fruits);
-// -> [ 'orange', 'watermelon', 'strawberry' ]
+console.log(objs);
+// -> [ { id: 'changed' }, { id: 'obj2' } ]
