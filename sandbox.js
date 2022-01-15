@@ -1,13 +1,10 @@
-Array.generate = function (len, pattern) {
-  const arr = [];
+const persons = [
+  {name: 'alice', age: 18},
+  {name: 'bob', age: 20},
+  {name: 'jery', age: 19},
+];
 
-  for (let i = 0; i < len; i++) {
-    arr[i] = pattern(i);
-  }
+const ageAbove19 = (person) => person.age > 19;
 
-  return arr;
-};
-
-// 生成 10 个随机数
-const randoms = Array.generate(10, (i) => ~~(10*Math.random()));
-console.log(...randoms);
+const personFound = persons.find(ageAbove19);
+console.log(personFound);
