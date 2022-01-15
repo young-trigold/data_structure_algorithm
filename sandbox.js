@@ -1,6 +1,17 @@
-const arr = [[1], [2, 3], [4]];
+Array.generate = function (len, pattern) {
+  const arr = [];
 
-// 打平 
-const flattedArr = arr.reduce((preEle, curEle) => preEle.concat(curEle));
-console.log(flattedArr);
-// -> [ 1, 2, 3, 4 ]
+  for (let i = 0; i < len; i++) {
+    arr[i] = pattern(i);
+  }
+
+  return arr;
+};
+
+// 使用 Array.generate() 生成随机数
+const nums = Array.generate(10, (i) => ~~(10*Math.random()));
+console.log(...nums);
+
+const byQuantity = (a, b) => a - b;
+
+console.log(...nums.sort(byQuantity));
