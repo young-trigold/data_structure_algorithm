@@ -8,10 +8,20 @@ Array.generate = function (len, pattern) {
   return arr;
 };
 
-// 使用 Array.generate() 生成随机数
-const nums = Array.generate(10, (i) => ~~(10*Math.random()));
+Array.prototype.shuffle = function () {
+  const len = this.length;
+
+  for (let i = len - 1; i > 0; i--) {
+    const j = ~~(Math.random() * (i + 1));
+    [this[i], this[j]] = [this[j], this[i]];
+  }
+
+  return this;
+};
+
+const nums = Array.generate(10, (i) => i);
 console.log(...nums);
+// 
 
-const byQuantity = (a, b) => a - b;
-
-console.log(...nums.sort(byQuantity));
+const shuffledNums = nums.shuffle();
+console.log(...shuffledNums);
