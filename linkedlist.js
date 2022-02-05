@@ -1,119 +1,160 @@
+// Node 辅助类
 class Node {
-  constructor(ele) {
-    this.element = ele;
+  constructor(element) {
+    this.element = element;
     this.next = null;
   }
 }
 
-class LinkedList {
-  constructor() {
-    this.head = null;
-    this.length = 0;
-  }
+const LinkedList = (() => {
+  // 封装私有属性
+  const store = new WeakMap();
 
-  append(ele) {
-    const newNode = new Node(ele);
-
-    if (this.head === null) {
-      this.head = newNode;
-    } else {
-      let currentNode = this.head;
-
-      while (currentNode.next !== null) {
-        currentNode = currentNode.next;
-      }
-
-      currentNode.next = newNode;
+  class LinkedList {
+    constructor() {
+      store.set(this, { _count: 0 });
+      this.head = null;
     }
 
-    this.length++;
-    return this;
-  }
+    // 长度 只读
+    get size() {
+      return store.get(this)._count;
+    }
 
-  insert(i, ele) {
-    const newNode = new Node(ele);
-    
-  }
+    // 是否为空 只读
+    get isEmpty() {
+      return this.size === 0;
+    }
 
-  removeAt(i) {}
+    // 在链表末尾添加一个元素
+    append(element) {
+      const newNode = new Node(element);
 
-  findIndex(ele) {}
+      if (this.isEmpty) {
+        this.head = newNode;
+      } else {
+        this.getNodeAt(this.size - 1).next = newNode;
+      }
 
-  remove(ele) {}
+      store.get(this)._count += 1;
 
-  isEmpty() {
-    return this.length === 0;
-  }
+      return this;
+    }
 
-  indexes() {
-    let i = 0;
+    // 在位置 index 处添加一个元素
+    insert(element, index) {
+      const newNode = new Node(element);
 
-    return {
-      next: () => {
-        return {value: i, done: i++ === this.length};
-      },
+      if (index === 0) {
+        newNode.next = this.head;
+        this.head = newNode;
+      }
 
-      [Symbol.iterator]() {
-        return this;
-      },
-    };
-  }
+      if (index >= 1 && index <= this.size) {
+        newNode.next = this.getNodeAt(index);
+        this.getNodeAt(index - 1).next = newNode;
+      }
 
-  elements() {
-    return this[Symbol.iterator]();
-  }
+      store.get(this)._count += 1;
 
-  [Symbol.iterator]() {
-    let i = 0;
-    let currentNode = this.head;
+      return this;
+    }
 
-    return {
-      next: () => {
-        try {
-          return {
-            value: currentNode?.element,
-            done: this.length === i,
-          };
-        } finally {
-          currentNode = currentNode?.next;
-          i++;
+    // 获取 index 位置处的节点
+    getNodeAt(index) {
+      if (index >= 0 && index < this.size) {
+        let curNode = this.head;
+        let i = 0;
+
+        while (i < index) {
+          curNode = curNode.next;
+          i += 1;
         }
-      },
 
-      [Symbol.iterator]() {
-        return this;
-      },
-    };
-  }
+        return curNode;
+      }
 
-  entries() {
-    let i = 0;
-    let currentNode = this.head;
+      return null;
+    }
 
-    return {
-      next: () => {
-        try {
-          return {
-            value: [i, currentNode?.element],
-            done: this.length === i,
-          };
-        } finally {
-          i++;
-          currentNode = currentNode?.next;
+    // 移除位置 index 处的元素
+    removeAt(index) {
+      if (index === 0) {
+        const originHeadElement = this.head?.element;
+        this.head = this.getNodeAt(1);
+        return originHeadElement;
+      }
+
+      if (index >= 1 && index < this.size) {
+        const elementToRemove = this.getNodeAt(index).element;
+        this.getNodeAt(index - 1).next = this.getNodeAt(index + 1);
+        return elementToRemove;
+      }
+
+      return null;
+    }
+
+    // 移除元素
+    remove(element) {
+      return this.removeAt(this.indexOf(element));
+    }
+
+    // 返回指定元素的位置
+    indexOf(element) {
+      let curNode = this.head;
+      let i = 0;
+
+      while (curNode) {
+        if (curNode.element === element) {
+          return i;
         }
-      },
 
-      [Symbol.iterator]() {
-        return this;
-      },
-    };
+        curNode = curNode.next;
+        i += 1;
+      }
+
+      return -1;
+    }
+
+    // 默认迭代器用于展示所有元素
+    [Symbol.iterator]() {
+      let curNode = this.head;
+
+      return {
+        next: () => {
+          const result = { value: curNode?.element, done: curNode === null };
+          curNode = curNode?.next;
+          return result;
+        },
+        [Symbol.iterator]() {
+          return this;
+        },
+      };
+    }
   }
-}
+
+  return LinkedList;
+})();
 
 const linkedList = new LinkedList();
 linkedList.append('apple').append('orange').append('pear');
+console.log(...linkedList);
+// -> 'apple' 'orange' 'pear'
 
-console.log(linkedList.length);
-linkedList.insert(2, 'strawberry');
+linkedList.insert('watermelon', 3);
+console.log(...linkedList);
+// -> 'apple' 'orange' 'pear' 'watermelon'
 
-console.log(...linkedList.elements());
+console.log(linkedList.indexOf('watermelon'));
+// -> 3
+
+console.log(linkedList.getNodeAt(3).element);
+// -> 'watermelon'
+
+linkedList.removeAt(3);
+console.log(...linkedList);
+// -> 'apple' 'orange' 'pear'
+
+linkedList.remove('apple');
+console.log(...linkedList);
+// -> 'orange' 'pear'

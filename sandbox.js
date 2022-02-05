@@ -1,20 +1,19 @@
-const a = [];
+class MySet extends Set {
+  uninon(set) {
+    if (set instanceof Set) {
+      return new Set([...this, ...set]);
+    }
+  }
 
-a.join = (function () {
-  let callCount = 0;
+  intersect(set) {}
 
-  const join = function () {
-    callCount++;
-    if (callCount === 1) return '1';
-    if (callCount === 2) return '2';
-    if (callCount === 3) return '3';
-  };
+  differ(set) {}
 
-  return join;
-})();
+  isSubsetOf() {}
+}
 
+const set = new MySet().add(1).add(2).add(3);
 
+const set2 = new MySet().add(1).add(4).add(7);
 
-const foo = (a == 1) && (a == 2) && (a == 3);
-
-console.log(foo);
+console.log(set.uninon(set2));
