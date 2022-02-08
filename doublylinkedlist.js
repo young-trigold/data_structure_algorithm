@@ -12,11 +12,16 @@ const DoublyLinkedList = (() => {
   class DoublyLinkedList {
     constructor() {
       this.head = null;
+      this.tail = null;
       store.set(this, { _count: 0 });
     }
 
     get size() {
       return store.get(this)._count;
+    }
+
+    get isEmpty() {
+      return this.size === 0;
     }
 
     append(element) {
@@ -43,7 +48,9 @@ const DoublyLinkedList = (() => {
 
     indexOf(element) {}
 
-    getNodeAt(index) {}
+    getNodeAt(index) {
+      
+    }
 
     [Symbol.iterator]() {}
   }

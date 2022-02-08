@@ -13,6 +13,7 @@
     "no-underscore-dangle": "off",
     "no-var": "off",
     "wrap-iife": "off",
-    "prefer-rest-params": "off"
+    "prefer-rest-params": "off",
+    "prefer-destructuring": "off"
   }
 }
