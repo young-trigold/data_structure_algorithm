@@ -1,19 +1,16 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es6": true
   },
   "extends": ["airbnb-base"],
-  "parserOptions": {
-    "ecmaVersion": 13
-  },
   "rules": {
-    "max-classes-per-file": "off",
     "linebreak-style": "off",
-    "no-underscore-dangle": "off",
-    "no-var": "off",
-    "wrap-iife": "off",
-    "prefer-rest-params": "off",
-    "prefer-destructuring": "off"
+    "max-classes-per-file": "off",
+    "no-shadow": "off",
+    "newline-per-chained-call": "off",
+    "consistent-return": "off",
+    "no-console": "off",
+    "no-extend-native": "off"
   }
 }
