@@ -1,19 +1,14 @@
-Array.prototype.shuffle = function shuffle() {
-  const len = this.length;
+Array.generate = function generate(len, pattern) {
+  const arr = [];
 
-  for (let i = len - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [this[i], this[j]] = [this[j], this[i]];
+  for (let i = 0; i < len; i++) {
+    arr[i] = pattern(i);
   }
 
-  return this;
+  return arr;
 };
 
-// 使用 Array.generate() 方法
-const nums = Array.generate(10, (i) => i);
-console.log(...nums);
-// 0 1 2 3 4 5 6 7 8 9
-
-const shuffledNums = nums.shuffle();
-console.log(...shuffledNums);
-// 0 6 7 8 9 5 4 1 3 2
+// 生成 10 个随机数
+const randoms = Array.generate(10, (i) => ~~(10 * Math.random()));
+console.log(...randoms);
+// -> 9 8 6 2 9 7 6 8 8 7

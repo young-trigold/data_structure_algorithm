@@ -46,9 +46,11 @@ class BinarySearchTree {
 
     return this;
   }
+
+  inOrderTraverse() {}
 }
 
 const bst = new BinarySearchTree();
-bst.append(11).append(7).append(15).append(9).append(3);
+[11, 7, 15, 5, 3, 6, 9, 8, 10, 13, 12, 14, 20, 18, 25].forEach((ele) => bst.append(ele));
 
-console.log(bst);
+
