@@ -14,9 +14,45 @@
         align-items: center;
         justify-content: center;
       }
+
+      .container {
+        width: 80vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .tab {
+        background-color: #eeeeee;
+        border: none;
+        border-radius: 10px;
+        border-bottom: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        padding: 1.5em;
+        margin: 0;
+      }
+
+      .tab.active {
+        background-color: white;
+        border: 1px #dddddd solid;
+      }
+
+      .content {
+        height: 200px;
+        background-color: white;
+        border: 1px #dddddd solid;
+      }
     </style>
   </head>
   <body>
-    <!-- <canvas id="canvas-tree"></canvas> -->
+    <div>
+      <nav class="container">
+        <button class="tab active">HOME</button>
+        <button class="tab">PROFILE</button>
+        <button class="tab">ABOUT</button>
+      </nav>
+      <section class="content"></section>
+    </div>
   </body>
 </html>

@@ -69,10 +69,63 @@ Array.prototype.insertionSort = function insertionSort() {
   return this;
 };
 
-Array.prototype.mergeSort = function mergeSort() {
-  const len = this.length;
+(() => {
+  const merge = function merge(leftSubArray, rightSubArray) {
+    const result = [];
 
-  for () {}
+    while (leftSubArray.length && rightSubArray.length) {
+      if (leftSubArray[0] < rightSubArray[0]) {
+        result.push(leftSubArray.shift());
+      } else {
+        result.push(rightSubArray.shift());
+      }
+    }
 
-  return this;
-};
+    while (leftSubArray.length) result.push(leftSubArray.shift());
+
+    while (rightSubArray.length) result.push(rightSubArray.shift());
+
+    return result;
+  };
+
+  Array.prototype.mergeSort = function mergeSort() {
+    let copy = [...this];
+    const len = this.length;
+
+    if (len > 1) {
+      const midIndex = Math.floor(len / 2);
+      const leftSubArray = copy.slice(0, midIndex).mergeSort();
+      const rightSubArray = copy.slice(midIndex, len).mergeSort();
+      copy = merge(leftSubArray, rightSubArray);
+    }
+
+    return copy;
+  };
+})();
+
+(() => {
+  const partition = function partition(arr, left, right) {
+    const pivot = left;
+    let index = pivot + 1;
+    for (let i = index; i <= right; i++) {
+      if (arr[i] < arr[pivot]) {
+        [arr[i], arr[index]] = [arr[index], arr[i]];
+        swap(arr, i, index);
+        index++;
+      }
+    }
+    swap(arr, pivot, index - 1);
+    return index - 1;
+  };
+
+  Array.prototype.quickSort = function quickSort(arr, left, right) {
+    let partitionIndex;
+
+    if (left < right) {
+      partitionIndex = partition(arr, left, right);
+      quickSort(arr, left, partitionIndex - 1);
+      quickSort(arr, partitionIndex + 1, right);
+    }
+    return arr;
+  };
+})();
