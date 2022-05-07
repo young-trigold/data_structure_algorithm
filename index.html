@@ -5,54 +5,68 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./sandbox.js" defer></script>
-    <title>树</title>
+    <title>Layout Demo</title>
     <style>
       body {
-        display: flex;
         margin: 0;
+      }
+
+      .wrapper {
+        position: fixed;
+      }
+
+      .modal-container {
+        display: table-cell;
+        vertical-align: middle;
+        width: 100vw;
+        height: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+        opacity: 0;
+      }
+
+      .modal-container.isVisible {
         height: 100vh;
-        align-items: center;
-        justify-content: center;
+        opacity: 1;
+        z-index: 1;
       }
 
-      .container {
-        width: 80vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .tab {
-        background-color: #eeeeee;
-        border: none;
-        border-radius: 10px;
-        border-bottom: none;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        padding: 1.5em;
-        margin: 0;
-      }
-
-      .tab.active {
+      .modal {
+        width: 340px;
+        height: 0;
+        transition: all 0.3s ease;
         background-color: white;
-        border: 1px #dddddd solid;
+        margin: 0 auto;
+        transform: translateY(-400px);
       }
 
-      .content {
+      .modal.isVisible {
+        transform: unset;
         height: 200px;
-        background-color: white;
-        border: 1px #dddddd solid;
       }
     </style>
   </head>
   <body>
-    <div>
-      <nav class="container">
-        <button class="tab active">HOME</button>
-        <button class="tab">PROFILE</button>
-        <button class="tab">ABOUT</button>
-      </nav>
-      <section class="content"></section>
+    <div class="wrapper">
+      <div class="modal-container"> 
+        <div class="modal"></div>
+      </div>
     </div>
+
+    <button type="button" id="showModalBtn">
+      显示
+    </button>
+    <script>
+      const btn = document.querySelector('#showModalBtn');
+      const modalContainer = document.querySelector('.modal-container');
+      const modal = document.querySelector('.modal');
+
+      btn.addEventListener('click', () => {
+        modalContainer.classList.toggle('isVisible');
+        modal.classList.toggle('isVisible');
+      });
+
+      
+    </script>
   </body>
 </html>
